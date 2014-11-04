@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+		<!-- BootStrap -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+		<link href="css/index.css" rel="stylesheet"></link>
+
+		<!-- Open Sans Font -->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'></link>
+	</head>
+
+	<body>
+		<div id="background">
+			<!-- Navbar -->
+			<div class="navbar navbar-default" role="navigation" id="navBar">
+				<div class="container">
+					<div class="navbar-header">
+						<ul class="navbar-nav nav">
+							<li><a th:href="@{/}" id="logo">Logo</a></li>
+						</ul>
+					</div>
+
+					<div class="navbar-right">
+						<ul class="navbar-nav nav">
+							<li><a th:href="@{/signup}" class="sign">SIGN UP</a></li>
+							<li><a th:href="@{/signin}" class="sign">SIGN IN</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<!-- Introduction Area -->
+			<div class="container" id="main">
+				<div class="row">
+					<div class="col-sm-5">
+						<p id="mainTitle">E-Flashcards</p>
+						<p id="mainDescription">The traditional study method meets the modern age. Study on all your devices, collaborate with your peers, and it's free!</p>
+						<a th:href="@{/signup}">
+							<button id="mainButton">Get Started Today</button>
+						</a>
+
+					</div>
+
+					<div class="col-sm-7">
+						<img src="img/mac.png" alt="ComputerScreen" id="mainImage" class="img-responsive"></img>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Features Area -->
+
+		<div id="features">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-4">
+						<img src="img/cash.png" alt="Cash" class="img-responsive" id="cash"></img>
+						<p>Free to use!</p>
+					</div>
+					<div class="col-sm-4" id="multiDevice">
+						<img src="img/multidevice.png" alt="MultiDevice" class="img-responsive" id="multiDevice"></img>
+						<p>Works on all your devices!</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="img/people.png" alt="people" class="img-responsive" id="people"></img>
+						<p>Collaborate with your friends!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<div id="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<a href="#">About</a> |
+						<a href="#">Contact</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="../bootstrap/js/bootstrap.min.js"></script>
+	</body>
+</html>
