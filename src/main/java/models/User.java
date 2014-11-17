@@ -5,17 +5,12 @@
  */
 package models;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
-
 public class User { 
 
 	private long id;
 	private String username;
 	private String password;
-	private String confirmPassword;
+	private String salt;
 	private String email;
 
 	public User(){}
@@ -28,27 +23,26 @@ public class User {
 	 * @param aPassword	Password of new User
 	 */
 	public User(String aUsername, String aEmail, String aPassword) {
-		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/flashcard", "root", "123");
-			Statement state = (Statement) con.createStatement();
-			state.executeUpdate("insert into User(username, email, password) values('" + aUsername + "', '" + aEmail + "', '" + aPassword + "');");
-		} catch(Exception e) {
-			e.printStackTrace(System.out);
-		}
 	}
 
 	/**
-	 * 
+	 * Puts the User object condensed into a String
+	 *
+	 * @return Concatenated values of attributes
 	 */
-	public static void check(String aUsername, String aPassword) {
-		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost/flashcard", "root", "123");
-			Statement state = (Statement) con.createStatement();
-
-		} catch(Exception e) {
-			e.printStackTrace(System.out);
-		}
+	public String toString() {
+		return "Username: " + this.username + 
+			", Password: " + this.password + 
+			", Salt: " + this.salt + 
+			", E-Mail: " + this.email;
 	}
+
+	/**
+	 * Retrieve the User's E-Mail
+	 * 
+	 * @return User's e-mail
+	 */
+	public String getEmail() { return email; }
 
 	/** 
 	 * Retrieve the User's password
@@ -57,12 +51,12 @@ public class User {
 	 */
 	public String getPassword() { return password; }
 
-	/**
-	 * Retrieve the User's confirmation password
+	/** 
+	 * Retrieve the User's salt
 	 *
-	 * @return User's confirmation password 
+	 * @return User's salt
 	 */
-	public String getConfirmPassword() { return confirmPassword; }
+	 public String getSalt() { return salt; }
 
 	/**
 	 * Retrieve the User's username
@@ -72,11 +66,13 @@ public class User {
 	public String getUsername() { return username; }
 
 	/**
-	 * Retrieve the User's E-Mail
+	 * Sets the User's new E-Mail
 	 * 
-	 * @return User's e-mail
+	 * @param newEmail User's new E-Mail address
 	 */
-	public String getEmail() { return email; }
+	public void setEmail(String newEmail) {
+		this.email = newEmail;
+	}
 
 	/**
 	 * Sets the User's password
@@ -88,14 +84,14 @@ public class User {
 	}
 
 	/**
-	 * Sets the User's confirmation password
+	 * Sets the User's salt
 	 *
-	 * @param newPassword User's new confirmation password in non-hashed form
+	 * @param newSalt User's new salt 
 	 */
-	public void setConfirmPassword(String newPassword) {
-		this.confirmPassword = newPassword;
-	}
-
+	 public void setSalt(String newSalt) { 
+		this.salt = newSalt;
+	 }
+	
 	/**
 	 * Sets the User's username
 	 * 
@@ -103,19 +99,5 @@ public class User {
 	 */
 	public void setUsername(String newUsername) {
 		this.username = newUsername;
-	}
-
-	/**
-	 * Sets the User's new E-Mail
-	 * 
-	 * @param newEmail User's new E-Mail address
-	 */
-	public void setEmail(String newEmail) {
-		this.email = newEmail;
-	}
-
-	public String toString() {
-		return "Username: " + this.username + ", Password: " + this.password + ", Password2: " + this.confirmPassword 
-			+ ", E-Mail: " + this.email;
 	}
 }
