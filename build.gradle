@@ -14,6 +14,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'groovy'
 
 repositories { 
 	mavenLocal()
@@ -22,14 +23,13 @@ repositories {
 }
 
 dependencies {
-	compile files("lib/mysql-connector-java-5.1.34-bin.jar");
+	compile fileTree(dir: "lib", includes: ["*.jar"])
 	compile("org.springframework.boot:spring-boot-starter")
 	compile("org.springframework:spring-jdbc")
-	compile("com.h2database:h2")
 
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-	compile("org.hibernate:hibernate-validator")
 	compile("org.apache.tomcat.embed:tomcat-embed-el")
+
 	testCompile("junit:junit")
 }
 
@@ -40,4 +40,10 @@ jar {
 
 task wrapper(type: Wrapper) {
 	gradleVersion = '1.11'
+}
+
+task dbSetup(type:Exec) {
+	workingDir "config/"
+
+	commandLine "python", "dbSetup.py"
 }
