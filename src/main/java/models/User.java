@@ -7,10 +7,8 @@ package models;
 
 public class User { 
 
-	private long id;
 	private String username;
 	private String password;
-	private String salt;
 	private String email;
 
 	public User(){}
@@ -26,6 +24,18 @@ public class User {
 	}
 
 	/**
+	 * Saves the current state of the User to the database
+	 */
+	public void save() {
+		if(Database.isUser(username)) { 
+			// Already a user within database, just update entry
+			Database.updateUser(this);
+		} else { // User is not withiin database, create new entry
+			Database.insertUser(this);
+		}
+	}
+
+	/**
 	 * Puts the User object condensed into a String
 	 *
 	 * @return Concatenated values of attributes
@@ -33,7 +43,6 @@ public class User {
 	public String toString() {
 		return "Username: " + this.username + 
 			", Password: " + this.password + 
-			", Salt: " + this.salt + 
 			", E-Mail: " + this.email;
 	}
 
@@ -50,13 +59,6 @@ public class User {
 	 * @return User's password
 	 */
 	public String getPassword() { return password; }
-
-	/** 
-	 * Retrieve the User's salt
-	 *
-	 * @return User's salt
-	 */
-	 public String getSalt() { return salt; }
 
 	/**
 	 * Retrieve the User's username
@@ -83,15 +85,6 @@ public class User {
 		this.password = newPassword;
 	}
 
-	/**
-	 * Sets the User's salt
-	 *
-	 * @param newSalt User's new salt 
-	 */
-	 public void setSalt(String newSalt) { 
-		this.salt = newSalt;
-	 }
-	
 	/**
 	 * Sets the User's username
 	 * 
