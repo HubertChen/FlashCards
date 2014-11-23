@@ -1,0 +1,38 @@
+#navBarContainer {
+	color: #444444;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-family: "Ubuntu";
+}
+
+.navbar-right {
+	height: 100%;
+}
+
+#navBar {
+	background-color: white;
+
+	border-color: transparent;
+	border-radius: 0px;
+
+	margin-bottom: 0;
+}
+
+#navBar a {
+	text-align: center;
+	color: #444444;
+}
+
+#logo {
+	font-weight: 600;
+	font-size: 30px;
+}
+
+.navBarLink {
+	margin-right: 5px;
+	font-size: 12px;
+}
+
+.active {
+	border-bottom: 5px solid #448BCC;
+}

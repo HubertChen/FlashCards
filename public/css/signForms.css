@@ -1,0 +1,36 @@
+html {
+	background-color: #EBEBEB;
+}
+
+#mainBackground {
+	background-color: #EBEBEB;
+}
+
+#formTitle {
+	margin-bottom: 30px;
+	
+	font-family: "Ubuntu";
+}
+
+form {
+	color: #444444;
+	text-align: center;
+	margin-top: 50px;
+	padding: 30px; 
+	background-color: white;
+}	
+
+form input, #submitButton {
+	font-family: "Open Sans";
+}
+
+#submitButton {
+	margin-top: 15px; /* To even the top and bottom margins because inputs have 15 margin-bottom */
+	font-weight: bold;
+	color: white;
+	font-size: 20px;
+	background-color: #448BCC;
+	padding: 20px;
+	border: none;
+	border-radius: 0;
+}
