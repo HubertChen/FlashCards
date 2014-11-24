@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+		<!-- BootStrap -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+		<link href="css/home.css" rel="stylesheet"></link>
+		<link href="css/header.css" rel="stylesheet"></link>
+
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'></link>
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'></link>
+	</head>
+
+	<body>
+		<!-- Navbar -->
+		<div class="navbar navbar-default" role="navigation" id="navBar">
+			<div class="container" id="navBarContainer">
+				<div class="navbar-header">
+					<ul class="navbar-nav nav">
+						<li><a th:href="@{/}" id="logo">Logo</a></li>
+					</ul>
+				</div>
+
+				<div class="navbar-right">
+					<ul class="navbar-nav nav">
+						<li>
+							<a href="#" class="navBarLink dropdown-toggle" id="user" data-toggle="dropdown">
+								User 
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</a>	
+							<ul class="dropdown-menu" role="menu">
+								<li class="a">1</li>
+								<li class="a">2</li>
+								<li class="a">3</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container" id="main">
+			<!-- Title -->
+			<div class="row">
+				<div class="col-sm-12">
+					<h1 id="title">Home</h1>
+				</div>
+			</div>
+
+			<!-- Maniuplation Options -->
+			<div class="row">
+				<div class="col-sm-2 col-sm-offset-4 add">
+					<span>
+						<a href="#">
+							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Folder
+						</a>
+					</span>
+				</div>
+
+				<div class="col-sm-2 add">
+					<span>
+						<a href="#">
+							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Deck
+						</a>
+					</span>
+				</div>
+			</div>
+
+			<!-- Folders and Decks -->
+			<div id="folderAndDeck">
+				
+			</div>
+		</div>
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="../bootstrap/js/bootstrap.min.js"></script>
+
+		<script>
+			$("#user").mouseover(function() {
+				$("#user").css("color", "#448BCC");
+			});
+
+			$("#user").mouseleave(function() {
+				$("#user").css("color", "#444444");
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,24 @@
+#aboutBackground {
+	background-color: #EBEBEB;
+}
+
+#contactBackground {
+	background-color: white;
+}
+
+.title {
+	font-family: "Ubuntu";
+	font-size: 50px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.text {
+	font-family: "Open Sans";
+	margin-bottom: 15px;
+}
+
+.row {
+	margin-top: 30px;
+	padding-bottom: 30px;
+}

@@ -45,4 +45,14 @@ public class Main {
 	public String signin() {
 		return "signin"; 
 	}
+
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home() {
+		return "home";
+	}
+
+	@RequestMapping(value = "/about", method = RequestMethod.GET)
+	public String about() {
+		return "about";
+	}
 }
