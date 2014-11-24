@@ -33,7 +33,12 @@ public class Main {
 		// Takes the user's inputted password and hashes it with salt
 		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 		
-		user.save();
+		if(user.save())
+			return "index";
+		else { // Username is taken, redirect back to /signup
+			model.addAttribute("error", "Username is taken");
+			return "signup";
+		}
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)

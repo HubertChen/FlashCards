@@ -24,9 +24,29 @@ public class User {
 	}
 
 	/**
-	 * Saves the current state of the User to the database
+	 * Saves a new User to the database
+	 *
+	 * This method should only be called upon User registration.
+	 * 
+	 * @return false if username is already in database; otherwise true.
 	 */
-	public void save() {
+	public boolean save() {
+		if(Database.isUser(username)) {
+			// Already a user within database
+			return false;
+		} else { // User is not within database, create new entry
+			Database.insertUser(this);
+			return true;
+		}			
+	}
+
+	/**
+	 * Saves the current state of the User to the database
+	 *
+	 * This method should not be called when creating a new user
+	 * because it might overwrite a previous user
+	 */
+	public void saveOrUpdate() {
 		if(Database.isUser(username)) { 
 			// Already a user within database, just update entry
 			Database.updateUser(this);
