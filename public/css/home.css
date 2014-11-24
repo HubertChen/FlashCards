@@ -1,0 +1,49 @@
+html, body {
+	background-color: #EBEBEB;
+	font-color: #444444;
+	font-family: "Open Sans";
+}
+
+#user {
+	color: white;
+	border-bottom: 5px solid #448BCC;
+	margin-right: 0px;
+}
+
+#user:focus {
+	background-color: transparent;
+}
+
+#main {
+	margin-top: 30px;
+	background-color: white;
+}
+
+#title {
+	font-family: "Ubuntu";
+	text-align: center;
+}
+
+.add {
+	text-align: center;
+}
+
+.add a {
+	font-size: 16px;
+	color: #36B95B;
+}
+
+.add span {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.a {	
+	background-color: #EBEBEB;
+	text-align: center;
+}
+
+.dropdown-menu {
+	padding: 0;
+	background-color: transparent;
+}
