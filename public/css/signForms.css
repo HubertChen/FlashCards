@@ -34,3 +34,13 @@ form input, #submitButton {
 	border: none;
 	border-radius: 0;
 }
+
+.errorDiv {
+	background-color: #EBEBEB;
+	height: 0px;
+}
+
+#errors {
+	margin-top: 50px;
+	visibility: hidden;
+}

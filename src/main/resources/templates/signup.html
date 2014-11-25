@@ -34,19 +34,29 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="errorDiv">
+			<div class="container errorDiv">
+				<div class="row errorDiv">
+					<div class="col-sm-12 errorDiv">
+						<div class="alert alert-danger" id="errors" role="alert"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 	
 		<div id="mainBackground">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3">
-						<form role="form"  th:action="@{/signup}" th:object="${user}"  method="POST">
+						<form role="form"  th:action="@{/signup}" th:object="${user}"  method="POST" onsubmit="return formValidation()">
 							<h1 id="formTitle">Sign Up</h1>
 	
 							<div class="form-group">
 								<input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Username"></input>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" id="email" th:field="*{email}" placeholder="E-Mail"></input>
+								<input type="email" class="form-control" id="email" th:field="*{email}" placeholder="E-Mail"></input>
 							</div>
 							<div class="form-group">
 								<input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Password"></input>
@@ -69,6 +79,7 @@
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
 
 		<script>
+			/*<![CDATA[*/
 			$(".navBarLink, #logo").mouseover(function() {
 				$(this).css("color", "#448BCC");
 			});
@@ -84,6 +95,48 @@
 			$("#submitButton").mouseleave(function() {
 				$(this).css("background-color", "#448BCC");
 			});
+
+			if($("#username").val().length > 0) {
+				$("#errors").empty();
+				$(".errorDiv").css("height", "auto");
+				$("#errors").css("visibility", "visible");
+				$("#errors").append("Username is already taken");
+			}
+
+			function formValidation() {
+				/* Server handles checking if the username is unique */
+				var username = $("#username").val();
+				var email = $("#email").val();
+				var password = $("#password").val();
+				var password2 = $("#password2").val();
+				var errors = "";
+
+				if(username.length < 5 || username.length > 21) 
+					errors += "Username must be between 5-20 characters.";
+				if(email.length == 0)
+					errors += "Please enter an E-Mail Address.";
+				if(password !== password2)
+					errors += "Passwords must match.";
+				if(password.length < 5)
+					errors += "Passwords must be at least 5 characters.";
+				
+				if(errors.search(/.+?[.].+?[.]/) != -1) //Multiple errors. Add new line characters
+					errors = errors.replace(/[.]/g , ".<br>");
+
+				if(errors.length > 0) {
+					$("#errors").empty();
+					$(".errorDiv").css("height", "auto");
+					$("#errors").css("visibility", "visible");
+					$("#errors").append(errors);
+
+					return false;
+				}
+				console.log(errors);
+				console.log("USername" + username);
+
+				return true;
+			}
+			/*]]>*/
 		</script>
 	</body>
 </html>
