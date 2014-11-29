@@ -56,7 +56,7 @@ public final class Database {
 		init();
 
 		return jdbcTemplate.query(
-			"SELECT * FROM users WHERE username = ?", 
+			"SELECT * FROM users WHERE LOWER(username) = LOWER(?)", 
 			new Object[] {username},
 			new RowMapper<User>() {
 				@Override
