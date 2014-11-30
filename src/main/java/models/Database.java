@@ -24,6 +24,25 @@ public final class Database {
 	public static void query() {
 		
 	}
+	
+	public static String getPassword(String username) {
+		init();
+
+		List<String> results = jdbcTemplate.query(
+			"SELECT password FROM users WHERE LOWER(username) = LOWER(?)", 
+			new Object[] {username},
+			new RowMapper<String>() {
+				@Override
+				public String mapRow(ResultSet result, int rowNum) throws SQLException {
+					return result.getString("password");
+				}
+			});
+
+		if(results.size() == 1)
+			return results.get(0);
+		else
+			return null;
+	}
 
 	/** 
 	 * Creates a new User entry in the database
@@ -67,7 +86,6 @@ public final class Database {
 						result.getString("email"));
 				}
 			});
-		
 	}
 
 	/**

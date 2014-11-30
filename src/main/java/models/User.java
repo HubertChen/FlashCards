@@ -22,7 +22,7 @@ public class User {
 	 */
 	public User(String aUsername, String aEmail, String aPassword) {
 	}
-
+	
 	/**
 	 * Saves a new User to the database
 	 *
@@ -50,7 +50,7 @@ public class User {
 		if(Database.isUser(username)) { 
 			// Already a user within database, just update entry
 			Database.updateUser(this);
-		} else { // User is not withiin database, create new entry
+		} else { // User is not within database, create new entry
 			Database.insertUser(this);
 		}
 	}

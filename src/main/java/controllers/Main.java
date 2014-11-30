@@ -8,6 +8,9 @@
 package controllers;
 
 import models.User;
+import models.Database;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,35 +23,80 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class Main {
 
 	@RequestMapping("/")
-	public String index() { return "index"; }
+	public String index(HttpSession session) { 
+		if(session.getAttribute("signedIn") == null)
+			return "index"; 
+		else
+			return "home";
+	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup(Model model) {
-		model.addAttribute("user", new User());
-		return "signup"; 
+	public String signup(Model model, HttpSession session) {
+		if(session.getAttribute("signedIn") == null) {
+			model.addAttribute("user", new User());
+			return "signup"; 
+		} else
+			return "home";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signupSubmit(@ModelAttribute User user, Model model) {
+	public String signupSubmit(@ModelAttribute User user, Model model, HttpSession session) {
 		// Takes the user's inputted password and hashes it with salt
 		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 		
-		if(user.save())
-			return "index";
-		else { // Username is taken, redirect back to /signup
-			model.addAttribute("error", "Username is taken");
+		if(user.save()) {
+			session.setAttribute("signedIn", true);
+			return "home";
+		} else { // Username is taken, redirect back to /signup
 			return "signup";
 		}
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public String signin() {
-		return "signin"; 
+	public String signin(Model model, HttpSession session) {
+		if(session.getAttribute("signedIn") == null){
+			model.addAttribute("user", new User());
+			return "signin"; 
+		} else 
+			return "home";
+	}
+
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signinSubmit(@ModelAttribute User user, Model model, HttpSession session) {
+		String userPassword = user.getPassword();
+		String dbPassword = Database.getPassword(user.getUsername());
+		String username = user.getUsername();
+
+		if(userPassword == null || dbPassword == null || username == null) {
+			return "signin";
+		}
+		
+		boolean isCorrectPassword = BCrypt.checkpw(userPassword, dbPassword);
+
+		if(isCorrectPassword) {
+			session.setAttribute("signedIn", true);
+			return "home";
+		} else {
+			return "signin";
+		}
+	}
+
+	@RequestMapping(value = "/signout", method = RequestMethod.GET)
+	public String signOut(HttpSession session) {
+		if(session.getAttribute("signedIn") == null) {
+			return "index";
+		} else {
+			session.setAttribute("signedIn", null);
+			return "index";
+		}
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home() {
-		return "home";
+	public String home(HttpSession session) {
+		if(session.getAttribute("signedIn") == null)
+			return "index";
+		else
+			return "home";
 	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)

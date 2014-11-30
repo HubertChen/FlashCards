@@ -34,20 +34,30 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="errorDiv">
+			<div class="container errorDiv">
+				<div class="row errorDiv">
+					<div class="col-sm-12 errorDiv">
+						<div class="alert alert-danger" id="errors" role="alert"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 	
 		<div id="mainBackground">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3">
-						<form role="form"  th:action="@{/signin}" th:object="${user}"  method="POST">
+						<form role="form"  th:action="@{/signin}" th:object="${user}"  method="POST" onsubmit="return formValidation()">
 							<h1 id="formTitle">Sign In</h1>
 							
 							<div class="form-group">
-								<input type="text" class="form-control" id="username" placeholder="Username"></input>
+								<input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Username"></input>
 							</div>
 
 							<div class="form-group">
-								<input type="password" class="form-control" id="password" placeholder="Password"></input>
+								<input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Password"></input>
 							</div>
 
 							<button id="submitButton" type="submit" class="btn btn-default">Sign In</button> 
@@ -64,6 +74,7 @@
 		<script src="../bootstrap/js/bootstrap.min.js"></script>
 
 		<script>
+			/*<![CDATA[*/
 			$(".navBarLink, #logo").mouseover(function() {
 				$(this).css("color", "#448BCC");
 			});
@@ -79,6 +90,39 @@
 			$("#submitButton").mouseleave(function() {
 				$(this).css("background-color", "#448BCC");
 			});
+
+			if($("#username").val().length > 0) {
+				$("#errors").empty();
+				$(".errorDiv").css("height", "auto");
+				$("#errors").css("visibility", "visible");
+				$("#errors").append("Incorrect login information");
+			}
+
+			function formValidation() {
+				var username = $("#username").val();
+				var password = $("#password").val();
+				var errors = "";
+
+				if(username.length == 0)
+					errors += "Please enter a username.";
+				if(password.length == 0)
+					errors += "Please enter a password.";
+
+				if(errors.search(/.+?[.].+?[.]/) != -1) //Multiple errors. Add new line characters
+					errors = errors.replace(/[.]/g , ".<br>");
+
+				if(errors.length > 0) {
+					$("#errors").empty();
+					$(".errorDiv").css("height", "auto");
+					$("#errors").css("visibility", "visible");
+					$("#errors").append(errors);
+
+					return false;
+				}
+
+				return true;
+			}
+			/*]]>*/
 		</script>
 	</body>
 </html>
