@@ -23,20 +23,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class Main {
 
 	@RequestMapping("/")
-	public String index(HttpSession session) { 
-		if(session.getAttribute("signedIn") == null)
+	public String index(HttpSession session, Model model) { 
+		if(session.getAttribute("username") == null)
 			return "index"; 
 		else
-			return "home";
+			return home(session, model);
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model, HttpSession session) {
-		if(session.getAttribute("signedIn") == null) {
+		if(session.getAttribute("username") == null) {
 			model.addAttribute("user", new User());
 			return "signup"; 
 		} else
-			return "home";
+			return home(session, model);
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -45,8 +45,8 @@ public class Main {
 		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 		
 		if(user.save()) {
-			session.setAttribute("signedIn", true);
-			return "home";
+			session.setAttribute("username", user.getUsername());
+			return home(session, model);
 		} else { // Username is taken, redirect back to /signup
 			return "signup";
 		}
@@ -54,11 +54,11 @@ public class Main {
 
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
 	public String signin(Model model, HttpSession session) {
-		if(session.getAttribute("signedIn") == null){
+		if(session.getAttribute("username") == null){
 			model.addAttribute("user", new User());
 			return "signin"; 
 		} else 
-			return "home";
+			return home(session, model);
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
@@ -74,8 +74,8 @@ public class Main {
 		boolean isCorrectPassword = BCrypt.checkpw(userPassword, dbPassword);
 
 		if(isCorrectPassword) {
-			session.setAttribute("signedIn", true);
-			return "home";
+			session.setAttribute("username", username);
+			return home(session, model);
 		} else {
 			return "signin";
 		}
@@ -83,20 +83,26 @@ public class Main {
 
 	@RequestMapping(value = "/signout", method = RequestMethod.GET)
 	public String signOut(HttpSession session) {
-		if(session.getAttribute("signedIn") == null) {
+		if(session.getAttribute("username") == null) {
 			return "index";
 		} else {
-			session.setAttribute("signedIn", null);
+			session.setAttribute("username", null);
 			return "index";
 		}
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(HttpSession session) {
-		if(session.getAttribute("signedIn") == null)
+	public String home(HttpSession session, Model model) {
+		if(session.getAttribute("username") == null)
 			return "index";
-		else
+		else {
+			User user = User.getUser((String)session.getAttribute("username"));
+
+			if(user != null)
+				model.addAttribute("folders", user.getFolders());
+			
 			return "home";
+		}
 	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)

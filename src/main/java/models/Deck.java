@@ -8,15 +8,27 @@ package models;
 import java.util.LinkedList;
 
 public class Deck { 
+	private String name;
+	private String description;
 	private LinkedList<Flashcard> flashcards;
 
-	/**
-	 * Public constructor that instantiates the deck
-	 */
-	public Deck(){ flashcards = new LinkedList<Flashcard>(); }
+	public Deck(){
+		flashcards = new LinkedList<Flashcard>();
+	}
 
 	/**
-	 * Takes a flashcard and adds it to the end of the deck
+	 * Constructor that instantiates the name and description
+	 *
+	 * @param name Name of the Deck
+	 * @param description Description of the Deck
+	 */
+	public Deck(String name, String description) { 
+		this.name = name;
+		this.description = description;
+	} 
+
+	/**
+	 * Adds a flashcard to the end of the deck
 	 *
 	 * @param front String value for the front of the card
 	 * @param back String value for the back of the card
@@ -37,20 +49,10 @@ public class Deck {
 	 * @param back String value for the back of the card
 	 */
 	public void addCard(int index, String front, String back) {
-		if(front == null || back == null)
+		if(index < 0 || index > flashcards.size() - 1)
 			return;
 
-		try {
-			flashcards.add(index, new Flashcard(front, back));
-		} catch (IndexOutOfBoundsException error) {
-			System.out.println(
-				"ERROR: Flashcard could not be inserted into the deck." + 
-				"\n Index: " + index +
-				"\n Front Content: " + front +
-				"\n Back Content: " + back
-			);
-			return;
-		}
+		flashcards.add(index, new Flashcard(front, back));
 	}
 
 	/**
@@ -60,12 +62,10 @@ public class Deck {
 	 * @return Flashcard object at the given index or null if not found
 	 */
 	public Flashcard getCard(int index) {
-		try {
-			Flashcard card = flashcards.get(index);
-			return card;
-		} catch(IndexOutOfBoundsException error) {
+		if(index < 0 || index > (flashcards.size() - 1))
 			return null;
-		}
+		
+		return flashcards.get(index);
 	}
 
 	/**
@@ -74,15 +74,10 @@ public class Deck {
 	 * @param index Index of the Flashcard to be removed.
 	 */
 	public void removeCard(int index) {
-			try {
-				flashcards.remove(index);
-			} catch(IndexOutOfBoundsException error) {
-				System.out.println(
-					"Error: Flashcard could not be removed from deck." + 
-					"\n Index: " + index
-				);
-				return;
-			}
+		if(index < 0 || index > (flashcards.size() - 1))
+			return;
+
+		flashcards.remove(index);
 	}
 
 	/**
@@ -106,18 +101,50 @@ public class Deck {
 	}
 
 	/** 
-	 * Returns the current deck
+	 * Returns the current deck (All the flashcards)
 	 *
-	 * @return Deck
+	 * @return The complete set of flashcards associated with this deck
 	 */
-	public LinkedList<Flashcard> getDeck() { return flashcards; }
+	public LinkedList<Flashcard> getFlashcards() { return flashcards; }
 
 	/**
-	 * Sets the deck with a new deck
+	 * Returns the name of the deck
 	 * 
-	 * @param newList New deck
+	 * @return Deck name
 	 */
-	public void setDeck(LinkedList<Flashcard> newDeck){
-			flashcards = newDeck;
+	public String getName() { return name; }
+
+	/** 
+	 * Returns the description of the deck
+	 * 
+	 * @return Deck description
+	 */
+	public String getDescription() { return description; }
+
+	/**
+	 * Sets the current deck of flashcards to a new one
+	 * 
+	 * @param newList New set of flashcards
+	 */
+	public void setDeck(LinkedList<Flashcard> newFlashcards){
+			flashcards = newFlashcards;
+	}
+
+	/** 
+	 * Set the name of the name of the deck
+	 * 
+	 * @param newName New name of the deck
+	 */
+	public void setName(String newName) {
+		name = newName;
+	}
+
+	/**
+	 * Set the description of the deck
+	 *
+	 * @param newDescription New description of the deck
+	 */
+	public void setDescription(String newDescription) {
+		description = newDescription;
 	}
 }

@@ -1,7 +1,11 @@
 html, body {
 	background-color: #EBEBEB;
-	font-color: #444444;
+	color: #444444;
 	font-family: "Open Sans";
+}
+
+.container {
+	padding: 10px;
 }
 
 #user {
@@ -46,4 +50,60 @@ html, body {
 .dropdown-menu {
 	padding: 0;
 	background-color: transparent;
+}
+
+#folderAndDeck a {
+	font-family: "Open Sans";
+	color: #444444;
+	background-color: transparent;
+
+}
+
+.deck {
+	background-color: #FFFFFF;
+
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.deck a:hover{
+	text-decoration: none;
+}
+
+.folder {
+	background-color: #EBEBEB;
+	border-left: 5px solid #448BCC;
+
+	margin-bottom: 20px;
+	padding: 20px;
+}
+
+.icon {
+	background-color: #FFFFFF;
+	border: 0 none;
+}
+
+.bold {
+	display: inline-block;
+
+	font-weight: bold;
+}
+
+.folderName {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.folderSpan {
+	margin-bottom: 10px;
+} 
+
+.deckName {
+	display: inline-block;
+	font-size: 14px;
+}
+
+.deckDescription {
+	display: inline-block;
+	font-size: 12px;
 }

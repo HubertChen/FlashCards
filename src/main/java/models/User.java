@@ -5,11 +5,15 @@
  */
 package models;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class User { 
 
 	private String username;
 	private String password;
 	private String email;
+	private List<Folder> folders;
 
 	public User(){}
 
@@ -21,6 +25,7 @@ public class User {
 	 * @param aPassword	Password of new User
 	 */
 	public User(String aUsername, String aEmail, String aPassword) {
+		folders = Database.getFolders(aUsername);
 	}
 	
 	/**
@@ -81,11 +86,33 @@ public class User {
 	public String getPassword() { return password; }
 
 	/**
+	 * Returns a User object of the given username
+	 * 
+	 * @param username Username of the desired User
+	 * @return User object that has the given username
+	 */
+	public static User getUser(String username) {
+		List<User> users = Database.findUser(username);
+
+		if(users.size() == 1)
+			return users.get(0);
+
+		return null;
+	}
+
+	/**
 	 * Retrieve the User's username
 	 *
 	 * @return User's username
 	 */
 	public String getUsername() { return username; }
+
+	/**
+	 * Retrieve the User's folders
+	 * 
+	 * @return A ArrayList of folders
+	 */
+	public List<Folder> getFolders() { return folders; }
 
 	/**
 	 * Sets the User's new E-Mail
@@ -112,5 +139,14 @@ public class User {
 	 */
 	public void setUsername(String newUsername) {
 		this.username = newUsername;
+	}
+
+	/**
+	 * Sets the User's folders
+	 *
+	 * @param newFolders An ArrayList of new Folders
+	 */
+	public void setFolders(ArrayList<Folder> newFolders) { 
+		this.folders = newFolders;
 	}
 }

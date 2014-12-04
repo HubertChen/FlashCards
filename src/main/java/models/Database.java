@@ -10,6 +10,7 @@ import com.mchange.v2.c3p0.*;
 import java.beans.PropertyVetoException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -117,6 +118,81 @@ public final class Database {
 				}
 			);
 	 }
+	
+	/**
+	 * Gets all the folders associated with an username
+	 * 
+	 * @param username User's username
+	 * @return List of folders
+	 */
+	public static List<Folder> getFolders(String username) {
+		init();
+
+		int userId = getUserId(username);
+
+		return jdbcTemplate.query(
+				"SELECT * FROM folders WHERE userId = ?",
+				new Object[] {userId}, 
+				new RowMapper<Folder>() {
+					@Override 
+					public Folder mapRow(ResultSet result, int rowNum) throws SQLException {
+						Folder tempFolder = new Folder(result.getString("name"));
+						tempFolder.setDecks(getDecks(result.getInt("id")));
+
+						return tempFolder;
+					}
+				}
+		);
+	}
+
+	/** 
+	 * Gets all the Decks associated with a folder ID
+	 *
+	 * @param folderId The ID of the folder
+	 * @return List of decks
+	 */
+	public static List<Deck> getDecks(int folderId) {
+		init();
+
+		return jdbcTemplate.query(
+			"SELECT * FROM decks where folderid = ?",
+			new Object[] {folderId},
+			new RowMapper<Deck>() { 
+				@Override
+				public Deck mapRow(ResultSet result, int rowNum) throws SQLException {
+					return new Deck(
+						result.getString("name"),
+						result.getString("description")
+					);
+				}
+			}
+		);
+	}
+	
+	/** 
+	 * Gets the user ID when given a username
+	 * 
+	 * @param username Username of the User
+	 * @return User ID
+	 */
+	public static int getUserId(String username) {
+		init();
+
+		List<Integer> userId = jdbcTemplate.query(
+			"SELECT id FROM users where username = (?)", 
+			new Object[] {username},
+			new RowMapper<Integer>() {
+				@Override
+				public Integer mapRow(ResultSet result, int rowNum) throws SQLException { 
+					return new Integer(
+						result.getInt("id")
+					);
+				} 
+			}	
+		);	
+
+		return userId.get(0).intValue();
+	}
 
 	/**
 	 * Initalizes both Spring's JDBC template and the C3P0 datasource.

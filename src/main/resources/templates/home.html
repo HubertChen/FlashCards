@@ -71,7 +71,7 @@
 								</div>
 							
 								<div class="modal-body">
-									<form role="form" method="POST" onsubmit="return formValidation()">
+									<form role="form" method="POST" onsubmit="return folderFormValidation()">
 										<div class="form-group">
 											<input type="text" class="form-control" id="name" placeholder="Name"></input>
 										</div>
@@ -87,13 +87,13 @@
 
 				<div class="col-sm-2 add">
 					<span>
-						<a href="#" id="addDeckLabel">
+						<a href="#" data-toggle="modal" data-target="#addDeckModal">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Deck
 						</a>
 					</span>
 
 					<!-- Add Deck Modal Form -->
-					<div class="modal fade" id="addFolderModal" tabindex="-1" role="dialog" aria-labelledby="addFolderLabel" aria-hidden="true">
+					<div class="modal fade" id="addDeckModal" tabindex="-1" role="dialog" aria-labelledby="addDeckLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -102,13 +102,14 @@
 										<span class="sr-only">Close</span>
 									</button>
 
-									<h4 class="modal-title formTitle" id="addFolderLabel">Add Folder</h4>
+									<h4 class="modal-title formTitle" id="addDeckLabel">Add Deck</h4>
 								</div>
 							
 								<div class="modal-body">
-									<form role="form" method="POST" onsubmit="return formValidation()">
+									<form role="form" method="POST" onsubmit="return deckFormValidation()">
 										<div class="form-group">
 											<input type="text" class="form-control" id="name" placeholder="Name"></input>
+											<input type="description" class="form-control" id="description" placeholder="Description"></input>
 										</div>
 
 										<button id="submitButton" type="submit" class="btn btn-default">Add Folder</button>
@@ -121,10 +122,33 @@
 				</div>
 			</div>
 
-			<!-- Folders and Decks -->
-			<div id="folderAndDeck">
-				
+			<div id="folderAndDeck" th:each="folder : ${folders}">
+				<div class="row">
+					<div class="title col-sm-10 col-sm-offset-1 folder">
+						<div class="folderSpan">
+							<a href="#" class="icon">
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</a>
+							<span class="folderName" th:text="${folder.name}"></span>
+						</div>
+						
+						<div th:each="deck : ${folder.decks}" class="col-sm-12 deck">
+							<a href="#">
+								<div>
+									<p class="bold">Name: </p>
+									<p class="deckName" th:text="${deck.name}" />
+								</div>
+								
+								<div>
+									<p class="bold">Description: </p>
+									<p class="deckDescription" th:text="${deck.description}" />
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
 			</div>
+
 		</div>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -140,6 +164,22 @@
 
 			$("#user, #logo").mouseleave(function() {
 				$(this).css("color", "#444444");
+			});
+
+			$(".icon").click(function() { 
+				if($(this).find("span").attr("class") == "glyphicon glyphicon-chevron-down"){
+					$(this).find("span").attr("class", "glyphicon glyphicon-chevron-right");
+					$(this).parent().parent().find(".deck").css("height", "0px");
+					$(this).parent().parent().find(".deck").css("padding", "0px");
+					$(this).parent().parent().find(".deck").css("margin-bottom", "0px");
+					$(this).parent().parent().find(".deck").css("visibility", "collapse");
+				} else {	
+					$(this).find("span").attr("class", "glyphicon glyphicon-chevron-down");
+					$(this).parent().parent().find(".deck").css("height", "auto");
+					$(this).parent().parent().find(".deck").css("padding", "10px");
+					$(this).parent().parent().find(".deck").css("margin-bottom", "10px");
+					$(this).parent().parent().find(".deck").css("visibility", "visible");
+				}
 			});
 		</script>
 	</body>
