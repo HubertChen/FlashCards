@@ -11,11 +11,13 @@ public class Deck {
 	private String name;
 	private String description;
 	private LinkedList<Flashcard> flashcards;
+	private int folderId;
+	private int id;
 
 	public Deck(){
 		flashcards = new LinkedList<Flashcard>();
 	}
-
+	
 	/**
 	 * Constructor that instantiates the name and description
 	 *
@@ -23,6 +25,19 @@ public class Deck {
 	 * @param description Description of the Deck
 	 */
 	public Deck(String name, String description) { 
+		this.name = name;
+		this.description = description;
+	} 
+
+	/**
+	 * Constructor that instantiates the id, name and description
+	 *
+	 * @param id ID of the deck
+	 * @param name Name of the Deck
+	 * @param description Description of the Deck
+	 */
+	public Deck(int id, String name, String description) { 
+		this.id = id;
 		this.name = name;
 		this.description = description;
 	} 
@@ -101,6 +116,13 @@ public class Deck {
 	}
 
 	/** 
+	 * Saves the Deck to the database
+	 */
+	public void save() {
+		Database.insertDeck(this);
+	}
+
+	/** 
 	 * Returns the current deck (All the flashcards)
 	 *
 	 * @return The complete set of flashcards associated with this deck
@@ -120,6 +142,20 @@ public class Deck {
 	 * @return Deck description
 	 */
 	public String getDescription() { return description; }
+
+	/**
+	 * Returns the  folder id in which this deck belongs
+	 *
+	 * @return Folder ID
+	 */
+	 public int getFolderId() { return folderId; }
+
+	/** 
+	 * Returns the deck ID
+	 * 
+	 * @return Deck ID
+	 */
+	public int getId() { return id; }
 
 	/**
 	 * Sets the current deck of flashcards to a new one
@@ -146,5 +182,35 @@ public class Deck {
 	 */
 	public void setDescription(String newDescription) {
 		description = newDescription;
+	}
+
+	/**
+	 * Set the folder Id
+	 *
+	 * @param id New folder ID
+	 */
+	public void setFolderId(int id) {
+		folderId = id;
+	}
+
+	/** 
+	 * Set the ID
+	 * 
+	 * @param newId New Deck ID
+	 */
+	public void setId(int newId) { 
+		id = newId;
+	}
+
+	/**
+	 * Returns the deck object in String form
+	 *
+	 * @return String form of deck
+	 */
+	public String toString() {
+		return 
+			"Name : " + getName() + 
+			"Description : " + getDescription() + 
+			"Folder ID : " + getFolderId();
 	}
 }

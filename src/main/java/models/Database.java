@@ -64,6 +64,43 @@ public final class Database {
 	 }
 
 	/**
+	 * Creates a new Folder entry in the database
+	 * 
+	 * @param folder Folder object to be inserted
+	 * @param userId User ID who owns the folder
+	 */
+	public static void insertFolder(Folder folder, int userId) {
+		init();
+
+		jdbcTemplate.update(
+			"INSERT INTO folders(userid, name) VALUES(?, ?)", 
+			new Object[] {
+				userId, 
+				folder.getName() 
+			}
+		);
+	}
+
+	/**
+	 * Creates a new Deck entry in the database
+	 * 
+	 * @param folder Folder object to be inserted
+	 * @param userId User ID who owns the folder
+	 */
+	public static void insertDeck(Deck deck) {
+		init();
+
+		jdbcTemplate.update(
+			"INSERT INTO decks(name, description, folderid) VALUES(?, ?, ?)", 
+			new Object[] {
+				deck.getName(), 
+				deck.getDescription(),
+				deck.getFolderId()
+			}
+		);
+	}
+
+	/**
 	 * Find a user given a username.
 	 * 
 	 * This should return a list of only one User as usernames
@@ -118,6 +155,31 @@ public final class Database {
 				}
 			);
 	 }
+
+	/** 
+	 * Gets all the flashcards associated with a deck
+	 *
+	 * @param int deckId
+	 * @return List of flashcards
+	 */
+	public static List<Flashcard> getFlashcards(int deckId) {
+		init();
+
+		return jdbcTemplate.query(
+			"SELECT * FROM cards WHERE deckid = ?",
+			new Object[] {deckId}, 
+			new RowMapper<Flashcard>() {
+				@Override
+				public Flashcard mapRow(ResultSet result, int rowNum) throws SQLException {
+					Flashcard flashcard = new Flashcard(result.getString("front"), result.getString("back"));
+					flashcard.setId(Integer.parseInt(result.getString("id")));
+					flashcard.setDeckId(Integer.parseInt(result.getString("deckid")));
+
+					return flashcard;
+				}
+			}
+		);	
+	}
 	
 	/**
 	 * Gets all the folders associated with an username
@@ -138,6 +200,7 @@ public final class Database {
 					public Folder mapRow(ResultSet result, int rowNum) throws SQLException {
 						Folder tempFolder = new Folder(result.getString("name"));
 						tempFolder.setDecks(getDecks(result.getInt("id")));
+						tempFolder.setId(result.getInt("id"));
 
 						return tempFolder;
 					}
@@ -161,6 +224,7 @@ public final class Database {
 				@Override
 				public Deck mapRow(ResultSet result, int rowNum) throws SQLException {
 					return new Deck(
+						result.getInt("id"),
 						result.getString("name"),
 						result.getString("description")
 					);

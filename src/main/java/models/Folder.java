@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 public class Folder {
+	private int id;
 	private String name;
 	private List<Deck> decks;
 
@@ -87,6 +88,15 @@ public class Folder {
 	}
 
 	/**
+	* Saves a new Folder to the database
+	* 
+	* @param userId The user Id who belongs to this folder
+	*/
+	public void save(int userId) {
+		Database.insertFolder(this, userId);
+	}
+
+	/**
 	 * Returns the current name of fodler
 	 * @return Returns current name of Folder
 	 */
@@ -98,6 +108,13 @@ public class Folder {
 	 * @return Current decks
 	 */
 	public List<Deck> getDecks() { return decks; }
+
+	/**
+	 * Returns the deck id
+	 *
+	 * @return ID of the deck
+	 */
+	public int getId() { return id; }
 
 	/**
 	 * Sets the Folder's name
@@ -115,5 +132,14 @@ public class Folder {
 	 */
 	public void setDecks(List<Deck> newDecks) { 
 		decks = newDecks;
+	}
+
+	/**
+	 * Sets the Folder's ID
+	 * 
+	 * @param newId New ID to be saved
+	 */
+	public void setId(int newId) {
+		id = newId;
 	}
 }

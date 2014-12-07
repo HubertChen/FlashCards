@@ -7,8 +7,7 @@
  */
 package controllers;
 
-import models.User;
-import models.Database;
+import models.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,7 +39,7 @@ public class Main {
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signupSubmit(@ModelAttribute User user, Model model, HttpSession session) {
+	public String signupForm(@ModelAttribute User user, Model model, HttpSession session) {
 		// Takes the user's inputted password and hashes it with salt
 		user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
 		
@@ -62,7 +61,7 @@ public class Main {
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
-	public String signinSubmit(@ModelAttribute User user, Model model, HttpSession session) {
+	public String signinForm(@ModelAttribute User user, Model model, HttpSession session) {
 		String userPassword = user.getPassword();
 		String dbPassword = Database.getPassword(user.getUsername());
 		String username = user.getUsername();
@@ -97,12 +96,46 @@ public class Main {
 			return "index";
 		else {
 			User user = User.getUser((String)session.getAttribute("username"));
+			model.addAttribute("folder", new Folder());
+			model.addAttribute("deck", new Deck());
 
 			if(user != null)
 				model.addAttribute("folders", user.getFolders());
 			
 			return "home";
 		}
+	}
+
+	@RequestMapping(value = "/addFolder", method = RequestMethod.POST)
+	public String addFolderForm(@ModelAttribute Folder folder, HttpSession session, Model model) {
+		if(session.getAttribute("username") == null)
+			return "index";
+
+		int userId = User.getUserId((String) session.getAttribute("username"));
+		folder.save(userId);
+		
+		return home(session, model);
+	}
+
+	@RequestMapping(value = "/addDeck", method = RequestMethod.POST)
+	public String addDeckForm(@ModelAttribute Deck deck, HttpSession session, Model model) {
+		if(session.getAttribute("username") == null)
+			return "index";
+
+		deck.save();
+
+		return home(session, model);
+	}
+
+	@RequestMapping(value = "/deck", params = {"id"})
+	public String deck(@RequestParam(value = "id") int id, HttpSession session, Model model) {
+		if(session.getAttribute("username") == null)
+			return "index";
+
+		model.addAttribute("flashcards", Database.getFlashcards(id));
+		model.addAttribute("flashcard", new Flashcard());
+
+		return "deck";
 	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)

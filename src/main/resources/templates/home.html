@@ -71,9 +71,9 @@
 								</div>
 							
 								<div class="modal-body">
-									<form role="form" method="POST" onsubmit="return folderFormValidation()">
+									<form role="form" th:action="@{/addFolder}" th:object="${folder}" method="POST">
 										<div class="form-group">
-											<input type="text" class="form-control" id="name" placeholder="Name"></input>
+											<input type="text" class="form-control" id="name" placeholder="Name" th:field="*{name}"></input>
 										</div>
 
 										<button id="submitButton" type="submit" class="btn btn-default">Add Folder</button>
@@ -106,10 +106,14 @@
 								</div>
 							
 								<div class="modal-body">
-									<form role="form" method="POST" onsubmit="return deckFormValidation()">
+									<form role="form" th:action="@{/addDeck}" th:object="${deck}" method="POST" onsubmit="return deckFormValidation()">
 										<div class="form-group">
-											<input type="text" class="form-control" id="name" placeholder="Name"></input>
-											<input type="description" class="form-control" id="description" placeholder="Description"></input>
+											<input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Name"></input>
+											<select class="form-control" th:field="*{folderId}">
+												<option selected="selected" value="-1">Select the folder</option>
+												<option th:each="folder : ${folders}" th:value="${folder.id}" th:text="${folder.name}"></option>
+											</select>
+											<input type="text" class="form-control" th:field="*{description}" id="description" placeholder="Description"></input>
 										</div>
 
 										<button id="submitButton" type="submit" class="btn btn-default">Add Folder</button>
@@ -133,7 +137,7 @@
 						</div>
 						
 						<div th:each="deck : ${folder.decks}" class="col-sm-12 deck">
-							<a href="#">
+							<a th:href="@{/deck?id=} + ${deck.id}">
 								<div>
 									<p class="bold">Name: </p>
 									<p class="deckName" th:text="${deck.name}" />

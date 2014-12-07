@@ -1,0 +1,127 @@
+html, body {
+	background-color: #EBEBEB;
+	color: #444444;
+	font-family: "Open Sans";
+}
+
+.container {
+	padding: 10px;
+}
+
+a {
+	color: #444444;
+}
+
+a:hover {
+	color: #444444;
+}
+
+#user {
+	color: white;
+	border-bottom: 5px solid #448BCC;
+	margin-right: 0px;
+}
+
+#user:focus {
+	background-color: transparent;
+}
+
+#main {
+	margin-top: 30px;
+	background-color: white;
+}
+
+#title {
+	font-family: "Ubuntu";
+	text-align: center;
+}
+
+.add {
+	text-align: center;
+}
+
+.add a {
+	font-size: 16px;
+	color: #36B95B;
+}
+
+.add span {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.dropdown-option {	
+	background-color: #EBEBEB;
+	text-align: center;
+}
+
+.dropdown-menu {
+	padding: 0;
+	background-color: transparent;
+}
+
+#flashcards{
+	background-color: #EBEBEB;
+}
+
+.flashcard {
+	background-color: white;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 15px;
+	margin-bottom: 15px;
+
+	text-align: center;
+	height: 200px; /* 1.666667 x max-width */
+	width: 80%;
+
+	display: table;
+
+	overflow: hidden;
+}
+
+.front, .back{
+	display: table-cell;
+	vertical-align: middle;
+}
+
+@media (min-width: 768px) {
+	.flashcard {
+		width: 500px;
+	}
+}
+
+.modal .active {
+	border: 0 none;
+}
+
+.carousel-control {
+	opacity: 100;
+	background-image: none;
+	text-shadow: none;
+	color: #444444;
+}
+
+.carousel-control:hover {
+	color: #444444;
+}	
+
+.carousel-control.right {
+	background-image: none;
+}
+
+.carousel-control.left {
+	background-image: none;
+}
+
+.modal-content { 
+	margin-top: 50%;
+}
+
+.front {
+	font-weight: bold;
+}
+
+.displayNone {
+	display: none;
+}

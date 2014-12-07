@@ -6,6 +6,8 @@
 package models;
 
 public class Flashcard { 
+	private int deckId;
+	private int id;
 	private String front;
 	private String back;
 
@@ -27,11 +29,29 @@ public class Flashcard {
 	 * Gets the content on the front of the Flashcard
 	 *
 	 * @return String of the front content
-	 * @return String of the back content
 	 */
 	public String getFront() { return front; }
 
+	/** 
+	 * Gets the content on the back of the Flashcad
+	 *
+	 * @return String of the back content
+	 */
 	public String getBack() { return back; }
+	
+	/**
+	 * Gets the id of the Flashcard
+	 *
+	 * @return ID of flashcard
+	 */
+	public int getId() { return id; }
+
+	/** 
+	 * Gets the ID of the deck
+	 *
+	 * @return ID of the deck in which the flashcard belongs
+	 */
+	public int getDeckId() { return deckId; }
 
 	/**
 	 * Sets the content on the front of the Flashcard
@@ -49,5 +69,23 @@ public class Flashcard {
 	 */
 	public void setBack(String newBack) {
 		back = newBack;
+	}
+
+	/** 
+	 * Sets ID of the Flashcard
+	 *
+	 * @param newId New ID of the flashcard
+	 */
+	public void setId(int newId) {
+		id = newId;
+	}
+
+	/**
+	 * Sets ID of the deck in which this card belongs
+	 *
+	 * @param newDeckID New ID of deck
+	 */
+	public void setDeckId(int newDeckId) {
+		deckId = newDeckId;
 	}
 }

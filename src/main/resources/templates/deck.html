@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"></meta>
+		<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+		<!-- BootStrap -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+		<link href="css/deck.css" rel="stylesheet"></link>
+		<link href="css/header.css" rel="stylesheet"></link>
+
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'></link>
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'></link>
+	</head>
+
+	<body>
+		<!-- Navbar -->
+		<div class="navbar navbar-default" role="navigation" id="navBar">
+			<div class="container" id="navBarContainer">
+				<div class="navbar-header">
+					<ul class="navbar-nav nav">
+						<li><a th:href="@{/}" id="logo">Logo</a></li>
+					</ul>
+				</div>
+
+				<div class="navbar-right">
+					<ul class="navbar-nav nav">
+						<li>
+							<a href="#" class="navBarLink dropdown-toggle" id="user" data-toggle="dropdown">
+								User 
+								<span class="glyphicon glyphicon-chevron-down"></span>
+							</a>	
+							<ul class="dropdown-menu" role="menu">
+								<li class="dropdown-option"><a th:href="@{/signout}">Logout</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container" id="main">
+			<!-- Title -->
+			<div class="row">
+				<div class="col-sm-12">
+					<h1 id="title">Deck</h1>
+				</div>
+			</div>
+
+			<!-- Maniuplation Options -->
+			<div class="row">
+				<div class="col-sm-2 col-sm-offset-4 add">
+					<span>
+						<a href="#">
+							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Flashcard
+						</a>
+
+						<a href="#" data-toggle="modal" data-target="#addFolderModal" id="start">
+							<span></span> Start
+						</a>
+
+					</span>
+				</div>
+
+			</div>
+
+			<div id="flashcards" th:each="flashcard : ${flashcards}">
+				<div class="row">
+					<div class="title col-sm-10 col-sm-offset-1">
+						<a href="" data-toggle="modal" data-target="#addFolderModal">
+							<div class="flashcard" data-th-id="${flashcard.id}">
+								<p class="front" th:text="${flashcard.front}"></p>	
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add Folder Modal Form -->
+		<div class="modal fade" id="addFolderModal" tabindex="-1" role="dialog" aria-labelledby="addFolderLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div id="flashcardCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner" role="listbox">
+							<div class="item" th:each="flashcard : ${flashcards}">
+								<a href="#" class="modalCard">
+									<div class="flashcard" data-th-id="${flashcard.id}">
+										<p class="front" th:text="${flashcard.front}"></p>
+										<p class="back displayNone" th:text="${flashcard.back}"></p>
+									</div>
+								</a>
+							</div>
+						</div>
+						<!-- Controls -->
+						<!-- Left Control -->
+						<a class="left carousel-control" href="#flashcardCarousel" role="button" data-slide="prev">
+							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+
+						<!-- Right Control -->
+						<a class="right carousel-control" href="#flashcardCarousel" role="button" data-slide="next">
+							<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="../bootstrap/js/bootstrap.min.js"></script>
+
+		<script>
+			$("#user, #logo").mouseover(function() {
+				$(this).css("color", "#448BCC");
+			});
+
+			$("#user, #logo").mouseleave(function() {
+				$(this).css("color", "#444444");
+			});
+		
+			$(".modal .item:nth-child(1)").attr("class", "item active");
+
+			$("#start").click(function() {
+				$(".carousel-inner").find(".item").attr("class", "item");
+				$(".modal .item:nth-child(1)").attr("class", "item active");
+			});
+
+			$("#flashcards .flashcard").click(function() {
+				$(".carousel-inner").find(".item").attr("class", "item");
+				
+				var count = $(this).attr("id");
+				console.log(count);
+
+				$(".modal .item:nth-child(" + count + ")").attr("class", "item active");
+			});
+
+			$(".carousel-control").click(function() {
+				$(".back").attr("class", "back displayNone");
+				$(".front").attr("class", "front");
+			});
+
+			$(".modalCard").click(function() {
+				var back = $(this).find(".back");
+				var front = $(this).find(".front");
+				if(back.attr("class").indexOf("displayNone") == -1) {
+					back.attr("class", "back displayNone");
+					front.attr("class", "front");
+				} else {
+					back.attr("class", "back");
+					front.attr("class", "front displayNone");
+				}
+			});
+		</script>
+	</body>
+</html>

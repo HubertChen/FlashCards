@@ -101,6 +101,16 @@ public class User {
 	}
 
 	/**
+	 * Returns the user ID given the username
+	 * 
+	 * @param username Username of the User
+	 * @return ID of the username
+	 */
+	public static int getUserId(String username) {
+		return Database.getUserId(username);
+	}
+
+	/**
 	 * Retrieve the User's username
 	 *
 	 * @return User's username
