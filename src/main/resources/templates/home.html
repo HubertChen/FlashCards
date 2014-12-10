@@ -170,6 +170,15 @@
 				$(this).css("color", "#444444");
 			});
 
+			$(".add a").mouseover(function() {
+				$(this).css("background-color", "#63A5E0");
+			});
+
+			$(".add a").mouseleave(function() {
+				$(this).css("background-color", "#448BCC");
+			});
+
+
 			$(".icon").click(function() { 
 				if($(this).find("span").attr("class") == "glyphicon glyphicon-chevron-down"){
 					$(this).find("span").attr("class", "glyphicon glyphicon-chevron-right");

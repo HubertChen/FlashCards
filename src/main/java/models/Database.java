@@ -100,6 +100,44 @@ public final class Database {
 		);
 	}
 
+	/** 
+	 * Creates a new flashcard entry in the database
+	 *
+	 * @param flashcard Flashcard object to be inserted
+	 */
+	 public static void insertFlashcard(Flashcard flashcard) {
+	 	init();
+
+		jdbcTemplate.update(
+			"INSERT INTO cards(deckid, front, back) VALUES(?, ?, ?)",
+			new Object[] {
+				flashcard.getDeckId(), 
+				flashcard.getFront(),
+				flashcard.getBack()
+			}
+		);
+	 }
+
+	/** 
+	 * Creates a new flashcard entry in the database if it has picture
+	 *
+	 * @param flashcard Flashcard object to be inserted
+	 * @param hasFile True if there is picture, else false
+	 */
+	 public static void insertFlashcard(Flashcard flashcard, String fileName) {
+	 	init();
+
+		jdbcTemplate.update(
+			"INSERT INTO cards(deckid, front, back, picture) VALUES(?, ?, ?, ?)",
+			new Object[] {
+				flashcard.getDeckId(), 
+				flashcard.getFront(),
+				flashcard.getBack(),
+				fileName
+			}
+		);
+	 }
+
 	/**
 	 * Find a user given a username.
 	 * 
@@ -174,6 +212,7 @@ public final class Database {
 					Flashcard flashcard = new Flashcard(result.getString("front"), result.getString("back"));
 					flashcard.setId(Integer.parseInt(result.getString("id")));
 					flashcard.setDeckId(Integer.parseInt(result.getString("deckid")));
+					flashcard.setPicture(result.getString("picture"));
 
 					return flashcard;
 				}

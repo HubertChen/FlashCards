@@ -26,6 +26,7 @@ dependencies {
 	compile fileTree(dir: "lib", includes: ["*.jar"])
 	compile("org.springframework.boot:spring-boot-starter")
 	compile("org.springframework:spring-jdbc")
+	compile("org.springframework.boot:spring-boot-starter-web")
 
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 	compile("org.apache.tomcat.embed:tomcat-embed-el")

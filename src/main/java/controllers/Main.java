@@ -9,6 +9,11 @@ package controllers;
 
 import models.*;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.security.MessageDigest;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class Main {
@@ -127,15 +133,60 @@ public class Main {
 		return home(session, model);
 	}
 
-	@RequestMapping(value = "/deck", params = {"id"})
+	@RequestMapping(value = "/deck", params = {"id"}, method = RequestMethod.GET)
 	public String deck(@RequestParam(value = "id") int id, HttpSession session, Model model) {
 		if(session.getAttribute("username") == null)
 			return "index";
 
+		model.addAttribute("deckId", id);
 		model.addAttribute("flashcards", Database.getFlashcards(id));
 		model.addAttribute("flashcard", new Flashcard());
 
 		return "deck";
+	}
+
+	@RequestMapping(value = "/addFlashcard", params = {"deckId"}, method = RequestMethod.POST)
+	public String addFlashcard(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("deckId") int deckId,
+			@ModelAttribute Flashcard flashcard, 
+			HttpSession session, 
+			Model model) {
+
+		if(session.getAttribute("username") == null)
+			return "index";
+
+		flashcard.setDeckId(deckId);
+
+		if(!file.isEmpty()) {
+			try {
+				MessageDigest md = MessageDigest.getInstance("MD5");
+
+				byte[] bytes = file.getBytes();
+				byte[] hash = md.digest(bytes);
+
+				File pictureFile = new File("public/pictures/" + hash);
+
+				BufferedOutputStream stream = 
+					new BufferedOutputStream( 
+						new FileOutputStream(
+							pictureFile
+						)
+					);
+
+				stream.write(bytes);
+				stream.close();
+	
+				System.out.println(pictureFile.getName());
+				Database.insertFlashcard(flashcard, pictureFile.getName());
+					
+				return deck(deckId, session, model);
+			} catch(Exception e) {
+				return deck(deckId, session, model);	
+			}
+		}			
+		Database.insertFlashcard(flashcard);
+		return deck(deckId, session, model);
 	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)

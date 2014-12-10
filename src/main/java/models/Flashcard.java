@@ -10,6 +10,7 @@ public class Flashcard {
 	private int id;
 	private String front;
 	private String back;
+	private String picture;
 
 	public Flashcard() {}
 
@@ -53,6 +54,13 @@ public class Flashcard {
 	 */
 	public int getDeckId() { return deckId; }
 
+	/** 
+	 * Gets the picture file name
+	 *
+	 * @return File name of picture
+	 */
+	public String getPicture() { return picture; }
+
 	/**
 	 * Sets the content on the front of the Flashcard
 	 * 
@@ -87,5 +95,14 @@ public class Flashcard {
 	 */
 	public void setDeckId(int newDeckId) {
 		deckId = newDeckId;
+	}
+
+	/** 
+	 * Sets the picture associated with the card
+	 *
+	 * @param newPicture New Picture
+	 */
+	public void setPicture(String newPicture) {
+		picture = newPicture;
 	}
 }

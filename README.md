@@ -8,4 +8,4 @@ Setup DB:
 	7. grant all on users to test;
 	8. create table folders(id serial, userId integer, name varchar(50), dateCreated timestamp);
 	9. create table decks(id serial, folderId integer, name varchar(30), description varchar(256), dateCreated timestamp);
-	10. create table cards(id serial, deckId integer, front text, back text, footnote text, dateCreated timestamp);
+	10. create table cards(id serial, deckId integer, front text, back text, footnote text, dateCreated timestamp, picture text);

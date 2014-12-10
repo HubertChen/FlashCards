@@ -34,12 +34,16 @@ html, body {
 
 .add a {
 	font-size: 16px;
-	color: #36B95B;
+	font-weight: bold;
+	text-decoration: none;
+	background-color: #448BCC;
+	color: white;
+	padding: 15px;
 }
 
 .add span {
-	margin-top: 15px;
-	margin-bottom: 15px;
+	margin-top: 30px;
+	margin-bottom: 30px;
 }
 
 .dropdown-option {	
