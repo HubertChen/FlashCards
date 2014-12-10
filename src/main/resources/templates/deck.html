@@ -51,24 +51,22 @@
 			<!-- Maniuplation Options -->
 			<div class="row">
 				<div class="col-sm-2 col-sm-offset-4 add">
-					<span>
-						<a href="#">
+						<a href="#" data-toggle="modal" data-target="addFlashcardModal">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Flashcard
 						</a>
-
-						<a href="#" data-toggle="modal" data-target="#addFolderModal" id="start">
-							<span></span> Start
-						</a>
-
-					</span>
 				</div>
 
+				<div class="col-sm-2 add">
+					<a href="#" data-toggle="modal" data-target="#slideshowModal" id="start">
+						<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Start
+					</a>
+				</div>
 			</div>
 
 			<div id="flashcards" th:each="flashcard : ${flashcards}">
 				<div class="row">
 					<div class="title col-sm-10 col-sm-offset-1">
-						<a href="" data-toggle="modal" data-target="#addFolderModal">
+						<a href="" data-toggle="modal" data-target="#slideshowModal">
 							<div class="flashcard" data-th-id="${flashcard.id}">
 								<p class="front" th:text="${flashcard.front}"></p>	
 							</div>
@@ -78,8 +76,8 @@
 			</div>
 		</div>
 
-		<!-- Add Folder Modal Form -->
-		<div class="modal fade" id="addFolderModal" tabindex="-1" role="dialog" aria-labelledby="addFolderLabel" aria-hidden="true">
+		<!-- Slideshow Modal Form -->
+		<div class="modal fade" id="slideshowModal" tabindex="-1" role="dialog" aria-labelledby="slideshowLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div id="flashcardCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -111,6 +109,34 @@
 			</div>
 		</div>
 
+		<!-- Add Flashcard Modal Form -->
+		<!--
+		<div class="modal fade" id="addFlashcardModal" tabindex="-1" role="dialog" aria-labelledby="addFlashcardLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+
+						<h4 class="modal-title formTitle" id="addFlashcardLabel">Add Folder</h4>
+					</div>
+
+					<div class="modal-body">
+						<form role="form" th:action="@{/addFlashcard}" th:object="${flashcard}" method="POST">
+							<div class="form-group">
+								<input type="text" class="form-control" id="name" placeholder="Name" th:field="*{name}"></input>
+							</div>
+
+							<button id="submitButton" type="submit" class="btn btn-default">Add Folder</button>
+							<button id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>-->
+
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
@@ -137,9 +163,11 @@
 				$(".carousel-inner").find(".item").attr("class", "item");
 				
 				var count = $(this).attr("id");
-				console.log(count);
 
 				$(".modal .item:nth-child(" + count + ")").attr("class", "item active");
+				$(".back").attr("class", "back displayNone");
+				$(".front").attr("class", "front");
+
 			});
 
 			$(".carousel-control").click(function() {
