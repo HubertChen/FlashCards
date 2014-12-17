@@ -139,6 +139,22 @@ public final class Database {
 	 }
 
 	/**
+	 * Removes a flashcard entry 
+	 *
+	 * @param id Flashcard ID to be deleted
+	 */
+	public static void removeFlashcard(int id) {
+		init();
+
+		jdbcTemplate.update(
+			"DELETE FROM cards WHERE id = ?", 
+			new Object[] {
+				id
+			}
+		);
+	}
+
+	/**
 	 * Find a user given a username.
 	 * 
 	 * This should return a list of only one User as usernames
@@ -270,6 +286,33 @@ public final class Database {
 				}
 			}
 		);
+	}
+
+	/**
+	 * Gets the Deck associated with a Deck ID
+	 *
+	 * @param deckId The ID of the deck
+	 * @return The Deck object associated with the ID
+	 */
+	public static Deck getDeck(int deckId) {
+		init();
+
+		List<Deck> deck = jdbcTemplate.query(
+			"SELECT * FROM decks where id = ?",
+			new Object[] { deckId}, 
+			new RowMapper<Deck>() {
+				@Override
+				public Deck mapRow(ResultSet result, int rowNum) throws SQLException {
+					return new Deck(
+						result.getInt("id"),
+						result.getString("name"), 
+						result.getString("description")
+					);
+				}
+			}
+		);
+
+		return deck.get(0);
 	}
 	
 	/** 

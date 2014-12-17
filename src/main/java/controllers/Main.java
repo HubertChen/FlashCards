@@ -139,6 +139,7 @@ public class Main {
 			return "index";
 
 		model.addAttribute("deckId", id);
+		model.addAttribute("deck", Database.getDeck(id));
 		model.addAttribute("flashcards", Database.getFlashcards(id));
 		model.addAttribute("flashcard", new Flashcard());
 
@@ -186,6 +187,21 @@ public class Main {
 			}
 		}			
 		Database.insertFlashcard(flashcard);
+		return deck(deckId, session, model);
+	}
+
+	@RequestMapping(value = "/removeFlashcard", params = {"flashcardId", "deckId"}, method = RequestMethod.POST)
+	public String removeFlashcard(
+			@RequestParam("flashcardId") int flashcardId, 
+			@RequestParam("deckId") int deckId, 
+			HttpSession session, 
+			Model model) {
+
+		if(session.getAttribute("username") == null) 
+			return "index";
+
+		Database.removeFlashcard(flashcardId);
+
 		return deck(deckId, session, model);
 	}
 

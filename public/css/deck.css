@@ -32,26 +32,53 @@ a:hover {
 }
 
 #title {
+	font-size: 50px;
 	font-family: "Ubuntu";
+	font-weight: bold;
 	text-align: center;
 }
 
-.add {
+#description {
+	font-size: 14px;
+	font-family: "Ubuntu";
+	font-weight: bold;
 	text-align: center;
 }
 
-.add a {
+.link {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.linkContainer a {
 	font-size: 16px;
 	font-weight: bold;
 	text-decoration: none;
-	background-color: #448BCC;
 	color: white;
-	padding: 15px;
+
+	min-width: 150px;
 }
 
-.add span {
-	margin-top: 30px;
-	margin-bottom: 30px;
+.linkContainer {
+	text-align: center;
+	margin-top: 15px;
+	margin-bottom: 15px;
+
+	padding: 10px;
+}
+
+.link span {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.add {
+	background-color: #448BCC;
+}
+
+.edit { 
+	background-color: #E26767;
 }
 
 .dropdown-option {	
@@ -79,14 +106,29 @@ a:hover {
 	height: 200px; /* 1.666667 x max-width */
 	width: 80%;
 
-	display: table;
-
 	overflow: hidden;
+	display: table;
 }
 
-.front, .back{
+.back{
 	display: table-cell;
 	vertical-align: middle;
+}
+
+.modalCard .front {
+	font-size: 30px;
+	font-weight: bold;
+	margin-left: auto;
+	margin-right: auto;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.content {
+	padding-top: 40px;
+	height: 200px;
+	text-align: center;
+	font-size: 30px;
 }
 
 @media (min-width: 768px) {
@@ -127,11 +169,36 @@ a:hover {
 }
 
 .front {
+	height: 100%;
 	font-weight: bold;
 }
 
+.overlay {
+	margin-bottom: 0px;
+}
+
+.counter {
+	font-weight: bold;
+	float: left;
+	margin-left: 10px;
+	padding: 5px;
+	border-bottom: 2px solid #4488BC;
+}
+
+.deleteCardLink {
+	padding: 5px;
+	font-weight: bold;
+	color: white;
+	background-color: #E26767;
+	border: none;
+	margin-right: 10px;
+	float: right;
+	margin-top: 10px;
+	padding-right: 10px;
+}
+
 .displayNone {
-	display: none;
+	display: none !important;
 }
 
 img {
@@ -141,6 +208,17 @@ img {
 	max-width: 80%;
 }
 
+#flashcards a {
+	text-decoration: none;
+}
+
 .container .flashcard {
 	overflow-y: hidden;
+	}
+
+.modal .flashcard {
+	width: 80%;
+}
+
+#removeFlashcardModal button{
 }

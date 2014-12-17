@@ -44,21 +44,34 @@
 			<!-- Title -->
 			<div class="row">
 				<div class="col-sm-12">
-					<h1 id="title">Deck</h1>
+					<p id="title" th:text="${deck.name}"></p>
+					<p id="description" th:text="${deck.description}"></p>
 				</div>
 			</div>
 
 			<!-- Maniuplation Options -->
 			<div class="row">
-				<div class="col-sm-2 col-sm-offset-4 add">
-						<a href="#" data-toggle="modal" data-target="#addFlashcardModal">
-							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Flashcard
-						</a>
+				<div class="col-md-2 col-md-offset-3 linkContainer">
+					<a href="#" data-toggle="modal" data-target="#addFlashcardModal">
+						<div class="add link">
+								<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Card
+						</div>
+					</a>
 				</div>
 
-				<div class="col-sm-2 add">
+				<div class="col-md-2 linkContainer">
 					<a href="#" data-toggle="modal" data-target="#slideshowModal" id="start">
-						<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Start
+						<div class="add link">
+							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Start
+						</div>
+					</a>
+				</div>
+
+				<div class="col-md-2 linkContainer">
+					<a href="#" id="edit">
+						<div class="edit link">
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
+						</div>
 					</a>
 				</div>
 			</div>
@@ -66,15 +79,25 @@
 			<div id="flashcards" th:each="flashcard : ${flashcards}">
 				<div class="row">
 					<div class="title col-sm-10 col-sm-offset-1">
-						<a href="" data-toggle="modal" data-target="#slideshowModal">
-							<div class="flashcard">
-								<p class="front">
+						<div class="flashcard">
+							<a href="#" data-toggle="modal" data-target="#slideshowModal">
+							<div class="front">
+								<p class="overlay">
+									<span class="counter"></span>
+									<span>
+										<span class="deleteCardLink displayNone" data-toggle="modal" data-target="#removeFlashcardModal" th:attr="data-cardId=${flashcard.id},data-deckId=${deck.id}">
+											<span class="deleteCard glyphicon glyphicon-remove-circle"></span> DELETE
+										</span>
+									</span>
+								</p>
+								<div class="content">
 									<img class="image" th:if="${flashcard.picture} != null" th:src="'pictures/' + ${flashcard.picture}"></img>
 									<br />
 									<span th:text="${flashcard.front}"></span>
-								</p>	
+								</div>
 							</div>
-						</a>
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -88,9 +111,10 @@
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner" role="listbox">
 							<div class="item" th:each="flashcard : ${flashcards}">
+								<!-- <span class="counter"></span> -->
 								<a href="#" class="modalCard">
 									<div class="flashcard">
-										<p class="front">
+										<p class="front">											
 											<img class="image" th:if="${flashcard.picture} != null" th:src="'pictures/' + ${flashcard.picture}"></img>
 											<br />
 											<span th:text="${flashcard.front}"></span>
@@ -138,13 +162,37 @@
 								<input type="file" class="form-control" id="file" name="file" placeholder="File"></input>
 							</div>
 
-							<button id="submitButton" type="submit" class="btn btn-default">Add Folder</button>
+							<button id="submitButton" type="submit" class="btn btn-default">Add Flashcard</button>
 							<button id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<!-- Remove Flashcard Modal Form -->
+		<div class="modal fade" id="removeFlashcardModal" tabindex="-1" role="dialog" aria-labelledby="removeFlashcardLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+
+						<h4 class="modal-title formTitle" id="removeFlashcardLabel">Confirmation</h4>
+					</div>
+
+					<div class="modal-body">
+						<form role="form" action="" method="POST">
+							<p class="removeFlashcardDescription">Are you sure on want to delete the flashcard?</p>
+							<button id="submitButton" type="submit" class="btn btn-default">Remove Card</button>
+							<button id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>	
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -163,15 +211,38 @@
 				$(this).css("color", "#444444");
 			});
 
-			$(".add a").mouseover(function() {
+			$(".add").mouseover(function() {
 				$(this).css("background-color", "#63A5E0");
 			});
 
-			$(".add a").mouseleave(function() {
+			$(".add").mouseleave(function() {
 				$(this).css("background-color", "#448BCC");
 			});
 
-		
+			$(".edit, .deleteCardLink").mouseover(function() {
+				$(this).css("background-color", "#F39191");
+			});
+
+			$(".edit, .deleteCardLink").mouseleave(function() {
+				$(this).css("background-color", "#E26767");
+			});
+
+			$(".deleteCardLink").click(function() {
+				$("#removeFlashcardModal form").attr("action", "/removeFlashcard?flashcardId=" + $(this).attr("data-cardId") + "&deckId=" + $(this).attr("data-deckId"));
+			});
+
+			var counter = 1;
+			$(".overlay .counter").each(function() {
+				$(this).text(counter);
+				counter++;
+			});
+
+			var counter2 = 1;
+			$(".carousel-inner .counter").each(function() {
+				$(this).text(counter2);
+				counter2++;
+			});
+
 			for(var x = 0; x < $(".container .flashcard").length; x++) {
 				$(".container .flashcard:eq(" + x + ")").attr("id", (x+1));
 				$(".modal .flashcard:eq(" + x + ")").attr("id", (x+1));
@@ -184,16 +255,31 @@
 				$(".modal .item:nth-child(1)").attr("class", "item active");
 			});
 
+			var editMode = true;
+			$(".edit").click(function() {
+				if(editMode) {
+					$(this).empty();
+					$(this).append("<span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span> Done");
+					$(".deleteCardLink").attr("class", "deleteCardLink");
+					$(".flashcard a").attr("data-target", "");
+					editMode = false;
+				} else {
+					$(this).empty();
+					$(this).append("<span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span> Edit");
+					$(".deleteCardLink").attr("class", "deleteCardLink displayNone");
+					$(".flashcard a").attr("data-target", "#slideshowModal");
+					editMode = true;
+				}
+			});
+	
 			$("#flashcards .flashcard").click(function() {
 				$(".carousel-inner").find(".item").attr("class", "item");
 				
 				var count = $(this).attr("id");
-				console.log(count);
 
 				$(".modal .item:nth-child(" + count + ")").attr("class", "item active");
 				$(".back").attr("class", "back displayNone");
 				$(".front").attr("class", "front");
-
 			});
 
 			$(".carousel-control").click(function() {
@@ -207,6 +293,7 @@
 				if(back.attr("class").indexOf("displayNone") == -1) {
 					back.attr("class", "back displayNone");
 					front.attr("class", "front");
+					console.log($(this).prev().text());
 				} else {
 					back.attr("class", "back");
 					front.attr("class", "front displayNone");
