@@ -50,12 +50,12 @@
 
 			<!-- Maniuplation Options -->
 			<div class="row">
-				<div class="col-sm-2 col-sm-offset-4 add">
-					<span>
-						<a href="#" data-toggle="modal" data-target="#addFolderModal">
+				<div class="col-md-2 col-md-offset-4 linkContainer">
+					<a href="#" data-toggle="modal" data-target="#addFolderModal">
+						<div class="add link">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Folder
-						</a>
-					</span>
+						</div>
+					</a>
 				
 					<!-- Add Folder Modal Form -->
 					<div class="modal fade" id="addFolderModal" tabindex="-1" role="dialog" aria-labelledby="addFolderLabel" aria-hidden="true">
@@ -85,12 +85,12 @@
 					</div>
 				</div>
 
-				<div class="col-sm-2 add">
-					<span>
-						<a href="#" data-toggle="modal" data-target="#addDeckModal">
+				<div class="col-md-2 linkContainer">
+					<a href="#" data-toggle="modal" data-target="#addDeckModal">
+						<div class="add link">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Deck
-						</a>
-					</span>
+						</div>
+					</a>
 
 					<!-- Add Deck Modal Form -->
 					<div class="modal fade" id="addDeckModal" tabindex="-1" role="dialog" aria-labelledby="addDeckLabel" aria-hidden="true">
@@ -170,11 +170,11 @@
 				$(this).css("color", "#444444");
 			});
 
-			$(".add a").mouseover(function() {
+			$(".add").mouseover(function() {
 				$(this).css("background-color", "#63A5E0");
 			});
 
-			$(".add a").mouseleave(function() {
+			$(".add").mouseleave(function() {
 				$(this).css("background-color", "#448BCC");
 			});
 
