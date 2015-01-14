@@ -21,11 +21,13 @@ public final class Database {
 	private static JdbcTemplate jdbcTemplate;
 
 	private Database(){}
-
-	public static void query() {
-		
-	}
 	
+	/*
+	 * Gets the hashed password given a User's username
+	 *
+	 * @param username Username of the User
+	 * @return Hashed String of User's password
+	 */
 	public static String getPassword(String username) {
 		init();
 
