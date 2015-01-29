@@ -27,7 +27,7 @@ Current site: http://imgur.com/a/7bPQI
 >9. create table cards(id serial, deckId integer, front text, back text, footnote text, dateCreated timestamp, picture text);
 >10. grant all privileges on all tables in schema public to test;
 >11. grant all on users to test;
->12. GRANT USAGE, SELECT ON SEQUENCE cards_id_seq TO test;
->13. GRANT USAGE, SELECT ON SEQUENCE decks_id_seq TO test;
->14. GRANT USAGE, SELECT ON SEQUENCE folders_id_seq TO test;
->15. GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO test;
+>12. grant usage, select on sequence cards_id_seq to test;
+>13. grant usage, select on sequence decks_id_seq to test;
+>14. grant usage, select on sequence folders_id_seq to test;
+>15. grant usage, select on sequence users_id_seq to test;
