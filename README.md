@@ -3,6 +3,7 @@
 An electronic flashcard web application. Currently, many flashcard sites charge money for extra features such as: text formatting, pictures, videos, audio, etc. The goal for this project is to offer an open source alternative to those sites and putting the UX/UI first. Full Stack: Spring Framework, Java, C3P0, PostgreSQL, ThymeLeaf, JQuery, JS, Bootstrap, CSS, HTML
 
 Current site: www.HubertChen.me
+
 Images: http://imgur.com/a/7bPQI
 
 ##Create your own development Environment (Get Hacking!):
