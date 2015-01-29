@@ -18,11 +18,12 @@ Current site: http://imgur.com/a/7bPQI
 
 >1. sudo su postgres
 >2. createdb flashcards
->3. createuser test with password '123';
->4. grant all privileges on database "flashcards" to test;
->5. create table users(id serial primary key, username varchar(20) not null, email varchar(256), password varchar(512));
->6. create table folders(id serial, userId integer, name varchar(50), dateCreated timestamp);
->7. create table decks(id serial, folderId integer, name varchar(30), description varchar(256), dateCreated timestamp);
->8. create table cards(id serial, deckId integer, front text, back text, footnote text, dateCreated timestamp, picture text);
->9. grant all privileges on all tables in schema public to test;
->10. grant all on users to test;
+>3. psql flashcards
+>4. create user test with password '123';
+>5. grant all privileges on database "flashcards" to test;
+>6. create table users(id serial primary key, username varchar(20) not null, email varchar(256), password varchar(512));
+>7. create table folders(id serial, userId integer, name varchar(50), dateCreated timestamp);
+>8. create table decks(id serial, folderId integer, name varchar(30), description varchar(256), dateCreated timestamp);
+>9. create table cards(id serial, deckId integer, front text, back text, footnote text, dateCreated timestamp, picture text);
+>10. grant all privileges on all tables in schema public to test;
+>11. grant all on users to test;
